@@ -12,7 +12,7 @@ $password = $_POST["password"];
 
 
 
-if($name == "" && $surname =="" &&  $email =="" &&  $gender == "" && $password == ""){
+if($name == "" || $surname =="" ||  $email =="" ||  $gender == "" || $password == ""){
     echo "0";
 }else{
     $sinsert = "insert into students (name,surname,email,gender,password) values('$name','$surname','$email','$gender','$password')";
