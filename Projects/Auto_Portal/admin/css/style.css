@@ -2,7 +2,7 @@ body{
     background-color: #00a65a;
     margin: 0px;
     padding: 0px;
-    overflow: hidden;
+    /* overflow: hidden; */
     box-sizing: border-box;
 }
 

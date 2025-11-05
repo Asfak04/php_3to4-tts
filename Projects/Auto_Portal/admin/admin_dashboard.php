@@ -16,135 +16,224 @@
         crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa, #dce3f0);
+            min-height: 100vh;
+        }
+
+        /* ===== Sidebar Styling ===== */
+        .sidebar {
+            width: 240px;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #0f1d36, #1f2a50);
+            color: #fff;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem 1rem;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar h4 {
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .sidebar small {
+            color: #aab8d6;
+        }
+
+        .sidebar a {
+            color: #cfd9f1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 12px 18px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a i {
+            font-size: 1.2rem;
+        }
+
+        .sidebar a:hover {
+            background: #2a3a6f;
+            color: #fff;
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar a.active {
+            background: #556ee6;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 6px 20px rgba(85, 110, 230, 0.4);
+        }
+
+        .sidebar .mt-auto {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* ===== Content ===== */
+        /* .content {
+            padding: 30px;
+        } */
+
+        .card {
+            border-radius: 12px;
+            border: none;
+            background: #ffffffb5;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 6px 18px rgba(18, 38, 63, 0.08);
+        }
+
+        .quick-btn {
+            min-width: 160px;
+        }
+    </style>
 </head>
 
 <body>
     <!-- header -->
 
-   <?php include_once("header.php");?>
+    <?php include_once("header.php"); ?>
     <!-- admin dash board -->
 
     <section id="admin_dashboard">
         <div class="row">
 
-            <div class="col-md-3 shadow h-100 p-5">
-                 <?php include_once("sidemenu.php") ?>
+            <div class="col-md-3 shadow p-5" style="height: 100vh;">
+                <?php include_once("sidemenu.php") ?>
             </div>
-            
+
             <div class="col-md-9 p-5">
-                <div class="row d-flex justify-content-around">
-                    <h3 class=" text-dark mb-4">Loged In On: <span class="text-success">10/07/2025 01:09 pm</span></h3>
-
-                    <div class="text-white col-md-3 bg-info" style="font-size: 21px;" style="background-color: #00c0ef;">
-                      <div class="row">
-                        <div class="col-3 d-flex justify-content-center align-items-center" style="background-color: #009abe;"><span
-                            class="bi bi-people-fill text-center icon" ></span>
+                <main class="content">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h2 class="fw-bold">Dashboard</h2>
+                            <p class="text-muted mb-0">Overview & quick actions</p>
                         </div>
-                        <div class="col-9">Total Registrations <br>
-                            <p>46</p>
-                        </div>
-                        
-                       </div>
                     </div>
-                    <div class="text-white col-md-3 " style="background-color: #00a65a;">
-                      <div class="row">
-                        <div class="col-3 d-flex justify-content-center align-items-center" style="background-color:#008548 ;"><span
-                            class="bi bi-calendar3 text-center icon text-white" ></span>
+
+                    <!-- Stats cards -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card p-3 text-center">
+                                <small class="text-muted">Total Vehicles</small>
+                                <div class="h3 fw-bold mt-2" id="cardVehicles">320</div>
+                            </div>
                         </div>
-                        <div class="col-9">Present <br>
-                            <p>7</p>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card p-3 text-center">
+                                <small class="text-muted">Active Users</small>
+                                <div class="h3 fw-bold mt-2" id="cardUsers">120</div>
+                            </div>
                         </div>
-                        
-                       </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card p-3 text-center">
+                                <small class="text-muted">Total Sales</small>
+                                <div class="h3 fw-bold mt-2" id="cardSales">$230,000</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card p-3 text-center">
+                                <small class="text-muted">Pending Approvals</small>
+                                <div class="h3 fw-bold mt-2" id="cardPending">6</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-white col-md-3" style="background-color: #dd4c39;"><div class="row">
-                        <div class="col-3 d-flex justify-content-center align-items-center" style="background-color: #b13b2d;"><span
-                            class="bi bi-phone text-center icon" ></span>
+
+                    <!-- Recent Listings + Quick Actions -->
+                    <div class="row g-4">
+                        <div class="col-lg-7">
+                            <div class="card p-3">
+                                <h6 class="mb-3">Recent Vehicle Listings</h6>
+                                <ul class="list-group list-group-flush" id="recentListings"></ul>
+                                <div class="mt-3 text-end">
+                                    <a href="reports.html" class="btn btn-outline-success">View All Listings</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-9">Absent
-                            <p>39</p>
+
+                        <div class="col-lg-5">
+                            <div class="card p-3">
+                                <h6 class="mb-3">Quick Actions</h6>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-success" id="btnAddVehicle"><i class="bi bi-plus me-2"></i>Add New Vehicle</button>
+                                    <a href="auth.html" class="btn btn-success"><i class="bi bi-people me-2"></i>Manage Users</a>
+                                    <a href="reports.html" class="btn btn-success"><i class="bi bi-bar-chart-line me-2"></i>View Analytics</a>
+                                </div>
+                            </div>
                         </div>
-                        
-                       </div>
                     </div>
-                </div>
-                <div class="row d-flex justify-content-around">
-                    <div class="col-md-5 shadow mt-4 p-3">
-                        <div id="chart_div"></div>
-                    </div>
-                    <div class="col-md-5 mt-5">
-
-                        <div class="card shadow mb-1">
-                            <table>
-                                <tr class="bg-white mt-4">
-                                    <td><span class="bi bi-check-circle-fill text-success"></span> Present </td>
-                                    <td align="right"><span class="bi bi-file-earmark text-success"></span> Export</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <div class="card shadow mb-1">
-                            <table>
-                                <tr class="bg-white mt-4">
-                                    <td><span class="bi bi-check-circle-fill text-success"></span> Present </td>
-                                    <td align="right"><span class="bi bi-file-earmark text-success"></span> Export</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <div class="card shadow mb-1">
-                            <table>
-                                <tr class="bg-white mt-4">
-                                    <td><span class="bi bi-check-circle-fill text-success"></span> Present </td>
-                                    <td align="right"><span class="bi bi-file-earmark text-success"></span> Export</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <div class="card shadow mb-1">
-                            <table>
-                                <tr class="bg-white mt-4">
-                                    <td><span class="bi bi-check-circle-fill text-success"></span> Present </td>
-                                    <td align="right"><span class="bi bi-file-earmark text-success"></span> Export</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <div class="card shadow mb-1">
-                            <table>
-                                <tr class="bg-white mt-4">
-                                    <td><span class="bi bi-check-circle-fill text-success"></span> Present </td>
-                                    <td align="right"><span class="bi bi-file-earmark text-success"></span> Export</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <div class="card shadow mb-1">
-                            <table>
-                                <tr class="bg-white mt-4">
-                                    <td><span class="bi bi-check-circle-fill text-success"></span> Present </td>
-                                    <td align="right"><span class="bi bi-file-earmark text-success"></span> Export</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <div class="card shadow mb-1">
-                            <table>
-                                <tr class="bg-white mt-4">
-                                    <td><span class="bi bi-check-circle-fill text-success"></span> Present </td>
-                                    <td align="right"><span class="bi bi-file-earmark text-success"></span> Export</td>
-                                </tr>
-                            </table>
-                        </div>
-
-
-                    </div>
-                </div>
+                </main>
             </div>
         </div>
     </section>
 
-   <?php include_once("footer.php"); ?>
+    <?php include_once("footer.php"); ?>
+
+
+    <script>
+        const recent = [{
+                name: "2024 Toyota Camry",
+                seller: "ABC Motors",
+                price: 28000,
+                status: "active"
+            },
+            {
+                name: "2023 Honda Civic",
+                seller: "SpeedLine",
+                price: 22000,
+                status: "pending"
+            },
+            {
+                name: "2022 Ford F-150",
+                seller: "TruckHouse",
+                price: 45000,
+                status: "active"
+            },
+            {
+                name: "2024 Hyundai Creta",
+                seller: "UrbanAutos",
+                price: 18000,
+                status: "active"
+            },
+        ];
+
+        const container = document.getElementById('recentListings');
+        recent.forEach(v => {
+            const li = document.createElement('li');
+            li.className = 'list-group-item d-flex justify-content-between align-items-center';
+            li.innerHTML = `
+        <div>
+          <div class="fw-medium">${v.name}</div>
+          <div class="small text-muted">${v.seller}</div>
+        </div>
+        <div class="text-end">
+          <div class="fw-bold">$${v.price.toLocaleString()}</div>
+          <span class="badge ${v.status === 'active' ? 'bg-success' : 'bg-warning text-dark'}">${v.status}</span>
+        </div>
+      `;
+            container.appendChild(li);
+        });
+
+        document.getElementById('btnAddVehicle').addEventListener('click', () => {
+            alert('Open Add Vehicle form (placeholder). For working form, integrate with a backend.');
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
