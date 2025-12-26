@@ -1159,6 +1159,397 @@
 
             How It Works:
                 --> Run set_data.php first → it creates a session & sets a cookie.
-                --> Then go to get_data.php → it retrieves and displays that data.    
+                --> Then go to get_data.php → it retrieves and displays that data.   
+                
+                
+
+
+
+
+
+
+
+    Email Security Function
+    THEORY EXERCISE:
+        (1) Explain the importance of email security and common practices to ensure secure email transmission.
+            --> Email is one of the most commonly used communication channels in web applications (password resets, OTPs, invoices, notifications). 
+                If email security is weak, it can lead to data breaches, fraud, and system compromise.
+
+            -->Common Practices to Ensure Secure Email Transmission:
+                1. Use SMTP over SSL/TLS (Encryption)
+                    Most important practice
+                     -->Encrypts email data during transmission.
+                     -->Prevents attackers from reading intercepted emails.
+                     ex.$mail->isSMTP();
+                        $mail->Host = 'smtp.gmail.com';
+                        $mail->SMTPAuth = true;
+                        $mail->Username = 'your@email.com';
+                        $mail->Password = 'app_password';
+                        $mail->SMTPSecure = 'tls'; // or ssl
+                        $mail->Port = 587;
+                    -->Protects against data sniffing
+                    -->Prevents MITM attacks
+                2. Use Secure Email Libraries (Avoid mail())
+                    Avoid PHP’s default mail() function.
+                    Recommended libraries:
+                    PHPMailer
+                    SwiftMailer
+                    Symfony Mailer
+                3. Validate & Sanitize Email Inputs
+                    Prevents header injection and abuse.
+                 --> $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+                 --> Prevents malicious email headers
+                 --> Stops spam abuse
+                
+                4. Limit Email Sending (Rate Limiting)
+
+                    Protects against:
+                        Email bombing
+                        Brute-force OTP attempts
+
+                    --> Use CAPTCHA
+                    --> Limit requests per IP/user
+                5. Use App Passwords or API Keys (Not Real Passwords)
+                    --> For services like:
+                    --> Gmail
+                    --> SendGrid
+                    --> Mailgun
+                    --> More secure
+                    --> Easy to revoke
+                    --> No exposure of main password
+
+    Practical Exercise: 
+        (1) Write a function that sanitizes email input and validates it before sending
+        --> PHP Function: Sanitize & Validate Email
+                /**
+                * Sanitize and validate an email address
+                *
+                * @param string $email
+                * @return string|false  Returns sanitized email or false if invalid
+                
+                    function sanitizeAndValidateEmail(string $email)
+                    {
+                        // Step 1: Trim whitespace
+                        $email = trim($email);
+                    
+                        // Step 2: Sanitize email
+                        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+                    
+                        // Step 3: Validate email format
+                        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                            return false;
+                        }
+                    
+                        // Step 4: Prevent header injection
+                        if (preg_match('/[\r\n]/', $email)) {
+                            return false;
+                        }
+                    
+                        return $email;
+                    }
+        --> How to Use the Function:
+                 $email = $_POST['email'] ?? '';
+
+                $cleanEmail = sanitizeAndValidateEmail($email);
+
+                if ($cleanEmail === false) {
+                    echo "Invalid email address";
+                    exit;
+                }
+
+                // Safe to send email
+                sendEmail($cleanEmail);
+
+
+
+
+    File Handling
+    THEORY EXERCISE: 
+        (1) Discuss file handling in PHP, including opening, reading, writing, and closing files. 
+             --> File handling in PHP allows developers to create, read, write, update, and delete files stored on the server. 
+                 It is commonly used for logging, reports (CSV/PDF), file uploads, backups, and configuration storage.  
+                    1. Opening a File (fopen())
+                        -->The fopen() function is used to open a file in a specific mode.
+                        Syntax: fopen(filename, mode);
+
+                        | Mode | Description                          |
+                        | ---- | ------------------------------------ |
+                        | r    | Read only (file must exist)          |
+                        | w    | Write only (creates/overwrites file) |
+                        | a    | Append (writes at end)               |
+                        | r+   | Read & write                         |
+                        | w+   | Read & write (overwrites)            |
+                        | a+   | Read & append                        |
+                        | x    | Create new file, fail if exists      |
+
+                        ex: $file = fopen("data.txt", "r");
+
+                    2. Reading Files in PHP
+                     (a) Reading Entire File – file_get_contents()
+                         $content = file_get_contents("data.txt");
+                         echo $content;
+                      --> Simple and fast
+                      --> Not ideal for large files
+
+                     (b) Reading Line by Line – fgets()
+                         $file = fopen("data.txt", "r");
+                        while (!feof($file)) {
+                            echo fgets($file);
+                        }
+                        fclose($file);
+                    --> Efficient for large files
+                     
+                    (c) Reading Character by Character – fgetc()
+                       $file = fopen("data.txt", "r");
+                       while (($char = fgetc($file)) !== false) {
+                           echo $char;
+                       }
+                       fclose($file);
+
+                    3. Writing to Files
+                     (a) Write Mode (w) – Overwrites File
+                        $file = fopen("data.txt", "w");
+                        fwrite($file, "Hello PHP\n");
+                        fclose($file);
+                     
+                     (b) Append Mode (a) – Adds Data
+                        $file = fopen("data.txt", "a");
+                        fwrite($file, "New line added\n");
+                        fclose($file);
+                       
+                     (c) Writing Arrays as CSV – fputcsv()
+                        $file = fopen("students.csv", "a");
+                        $data = ["John", 85, "A"];
+                        fputcsv($file, $data);
+                        fclose($file);
+                    4. Closing a File (fclose())
+                      -->Always close files after operations to:
+                      -->Free system resources
+                      -->Prevent file corruption
+                      -->Avoid file locks
+                        ex.fclose($file);
+               
+                    5. Checking File Existence & Permissions
+                        Check if File Exists
+                        if (file_exists("data.txt")) {
+                            echo "File exists";
+                        }
+
+                        Check Read/Write Permission
+                        is_readable("data.txt");
+                        is_writable("data.txt");
+                    
+                    6. Deleting & Renaming Files
+                      -->Delete a File
+                        ex.unlink("data.txt");
+
+                      -->Rename a File
+                        ex.rename("old.txt", "new.txt");    
+    Practical Exercise:
+        (1) Create a script that reads from a text file and displays its content on a web page.            
+            Step 1: Create a Text File
+              Create a file named sample.txt in the same directory:
+                        Welcome to PHP File Handling.
+                        This content is read from a text file.
+                        File handling is easy in PHP.
+            
+            Step 2: PHP Script to Read & Display File Content
+               --> Using file_get_contents():-
+                   <?php
+                    $filename = "sample.txt";
+
+                    if (file_exists($filename)) {
+                        $content = file_get_contents($filename);
+                        echo nl2br(htmlspecialchars($content));
+                    } else {
+                        echo "File not found.";
+                    }
+                    ?>
+
+
+                   Note:- file_exists() → checks if file is available
+                          file_get_contents() → reads entire file
+                          htmlspecialchars() → prevents XSS attacks
+                          nl2br() → converts new lines to <br> for HTML display
+
+
+    Handling Emails
+    THEORY EXERCISE: 
+            (1) Explain how to send emails in PHP using the mail() function and the importance of
+                validating email addresses.
+
+                Sending Email using mail():
+
+                  --> PHP uses the built-in mail() function to send emails.       
+                  --> It requires the recipient address, subject, message, and headers.
+                    Example:
+                       mail($to, $subject, $message, $headers);
+                  --> It is simple but has limited security and error handling.
+
+                Importance of Validating Email Addresses:
+                  -->  Ensures the email format is correct and real.
+                  -->  Prevents email header injection attacks.
+                  -->  Reduces email bounce rate.
+                  -->  Improves email deliverability.
+                  -->  Protects the server from spam misuse.
+
+    
+    MVC Architecture
+    THEORY EXERCISE: 
+            (1) Discuss the Model-View-Controller (MVC) architecture and its advantages in web
+                development.
+             --> MVC is a software design pattern that divides a web application into three interconnected components: Model, View, and Controller. 
+                 This separation helps organize code, improve maintainability, and make development more efficient.
+
+                    1. Model
+                        -->Represents the data layer of the application.
+                        -->Handles business logic, database operations (CRUD), and data validation.
+                        -->Communicates with the database.
+                        -->Example: User, Product, Invoice models in PHP/Laravel.
+                        Role:
+                         --> What data the app works with and how it is processed.
+                    2. View
+
+                        -->Represents the presentation layer (UI).
+                        -->Displays data to the user (HTML, CSS, Bootstrap, Blade templates).
+                        -->Does not contain business logic.
+                        -->Receives data from the Controller.
+                        -->Role:
+                           --> How the data is shown to the user.
+                    3. Controller
+                        -->Acts as an intermediary between Model and View.
+                        -->Handles user requests (form submissions, URL requests).
+                        -->Fetches or updates data via the Model.
+                        -->Passes data to the View.
+                        Role:
+                          --> Controls the flow of the application
+            
+            --> Advantages of MVC Architecture in Web Development:
+                    1. Separation of Concerns
+                    -->Logic, UI, and data are separated.
+                    -->Easier to understand and manage large applications.
+                    2. Better Maintainability
+                    -->Changes in UI do not affect business logic.
+                    -->Database changes rarely affect views.
+                    3. Reusability of Code
+                    -->Models can be reused in multiple controllers.
+                    -->Views can be reused with different data.
+                    4. Faster Development
+                    -->Multiple developers can work simultaneously:
+                    -->One on UI (View)
+                    -->One on logic (Controller)
+                    -->One on database (Model)
+                    5. Scalability
+                    -->Ideal for large and complex applications.
+                    -->Easy to add new features without breaking existing code.
+                    6. Easier Testing & Debugging
+                    -->Each component can be tested independently.
+                    -->Bugs are easier to locate.
+                    7. Framework Support
+                    -->Popular frameworks use MVC:
+                        -->Laravel (PHP)
+                        -->Django (MTV variant)
+                        -->Spring MVC
+                        -->ASP.NET MVC
+
+        Connection with MySQL Database
+        THEORY EXERCISE: 
+              (1) Explain how to connect PHP to a MySQL database using mysqli or PDO. Practical Exercise:
+                    1. Connecting PHP to MySQL using MySQLi
+                        MySQLi (MySQL Improved) is a PHP extension specifically designed for MySQL databases.
+                         a) MySQLi – Procedural Style
+                            <?php
+                            $conn = mysqli_connect("localhost", "root", "", "test_db");               
+                            if (!$conn) {
+                                die("Connection failed: " . mysqli_connect_error());
+                            }                        
+                            echo "Connected successfully";
+                            ?>
+                         b) MySQLi – Object-Oriented Style
+                            <?php
+                            $conn = new mysqli("localhost", "root", "", "test_db");                        
+                            if ($conn->connect_error) {
+                                die("Connection failed: " . $conn->connect_error);
+                            }
+                            echo "Connected successfully";
+                            ?>
+                        --> MySQLi
+                            -->Works only with MySQL
+                            -->Supports procedural and OOP styles
+                            -->Supports prepared statements (secure)    
+                
+                   2. Connecting PHP to MySQL using PDO (PHP Data Objects)
+                    --> PDO is a database abstraction layer that supports multiple databases (MySQL, PostgreSQL, SQLite, etc.).
+                    <?php
+                    try {
+                        $conn = new PDO(
+                            "mysql:host=localhost;dbname=test_db",
+                            "root",
+                            ""
+                        );
+                    
+                        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                        echo "Connected successfully";
+                    } catch (PDOException $e) {
+                        die("Connection failed: " . $e->getMessage());
+                    }
+                    ?>
+
+                    --> PDO
+                        --> Supports multiple database types
+                        --> Uses exception handling
+                        --> Supports named & positional prepared statements
+                        --> More secure and flexible
+
+                    3. Prepared Statement ExampleS
+                        --> MySQLi Prepared Statement
+                              $stmt = $conn->prepare("INSERT INTO users (name, email) VALUES (?, ?)");
+                              $stmt->bind_param("ss", $name, $email);
+                              $stmt->execute();
+
+                        --> PDO Prepared Statement
+                              $stmt = $conn->prepare("INSERT INTO users (name, email) VALUES (:name, :email)");
+                              $stmt->execute([
+                                  ':name' => $name,
+                                  ':email' => $email
+                              ]);
+
+
+     SQL Injection
+     THEORY EXERCISE: 
+                (1) Define SQL injection and its implications on security
+                    --> QL Injection is a security vulnerability in which an attacker inserts malicious SQL code into an application’s 
+                        input fields to manipulate the database query executed by the server.
+                    --> Implications on Security:
+                        --> Attackers can bypass authentication and log in without valid credentials.
+                        --> Sensitive data such as usernames, passwords, and personal information can be stolen.
+                        --> Database records can be modified or deleted, causing data loss.
+                        --> Attackers may gain full control over the database server.
+                        --> It can lead to financial loss, data breaches, and loss of user trust.
+                    --> SQL injection is a serious threat to web application security and must be prevented using input 
+                        validation and prepared statements.          
+
+    File Upload
+    THEORY EXERCISE: 
+              (1) Discuss file upload functionality in PHP and its security implications.
+                  --> File Upload Functionality in PHP allows users to upload files from their local system to the web server using 
+                      an HTML form and PHP’s $_FILES superglobal.PHP processes the uploaded file and stores it in a specified directory
+                       using functions like move_uploaded_file().
+                     --> Working:
+                           --> An HTML form uses method="POST" and enctype="multipart/form-data".
+                           --> Uploaded file details (name, type, size, temp location) are available in $_FILES.
+                           --> PHP validates the file and moves it to a secure folder.
+                     --> Security Implications:
+                           -->Malicious file upload: Attackers may upload executable scripts (e.g., .php) to gain server access.
+                           -->File type spoofing: Fake extensions or MIME types can bypass weak validation.
+                           -->Large file uploads: Can cause server overload or denial-of-service (DoS).
+                           -->Overwriting files: May replace important server files if filenames are not handled properly.
+                           -->Directory traversal: Improper paths may allow access to restricted directories.
+                     --> Security Measures:
+                         -->Validate file type, extension, and MIME type.
+                         -->Limit file size.
+                         -->Rename uploaded files and store them outside the web root.
+                         -->Disable script execution in upload directories.
+                         -->Use proper file and directory permissions.
+                  -->Proper validation and handling are essential to prevent serious security risks during file uploads.      
 */
-?>
