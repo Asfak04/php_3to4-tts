@@ -1,0 +1,3 @@
+Hello, this is a sample text file.
+It contains multiple lines of text.
+PHP can read and display this content easily.
