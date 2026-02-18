@@ -1,0 +1,102 @@
+/* ===== Global ===== */
+body {
+  background: #f1f5f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #334155;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0f172a, #1e293b);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+}
+
+.sidebar h4 {
+  letter-spacing: 1px;
+  color: #f8fafc;
+}
+
+/* Sidebar Menu */
+.sidebar-menu .nav-link {
+  color: #cbd5e1;
+  font-weight: 500;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  transition: all 0.25s ease;
+}
+
+.sidebar-menu .nav-link:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  transform: translateX(4px);
+}
+
+.sidebar-menu .nav-link.active {
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+/* Dropdown */
+.sidebar .dropdown-menu {
+  background: #020617;
+  border: none;
+  border-radius: 10px;
+  padding: 6px;
+}
+
+.sidebar .dropdown-item {
+  color: #cbd5e1;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.sidebar .dropdown-item:hover {
+  background: #1e293b;
+  color: #fff;
+}
+
+/* ===== Main Content ===== */
+main {
+  animation: fadeIn 0.4s ease;
+}
+
+/* ===== Cards (if used in pages) ===== */
+.card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+/* ===== Modal ===== */
+.modal-content {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 10px;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(8px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
