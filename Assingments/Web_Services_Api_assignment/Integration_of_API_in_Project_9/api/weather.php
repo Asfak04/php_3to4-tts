@@ -11,7 +11,7 @@ if ($city == '') {
     exit;
 }
 
-$apiKey = "cb2b3b7c08056ebb7ef7de0339a81a03";
+$apiKey = "enter your api key";
 $url = "https://api.openweathermap.org/data/2.5/weather?q=$city&units=metric&appid=$apiKey";
 
 // Call external API
