@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System v2.0 - Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 900px; padding: 40px 20px; }
+        h1, h2, h3 { color: #1e3c72; border-bottom: 2px solid #e9ecef; padding-bottom: 10px; margin-top: 40px; }
+        h1 { margin-top: 0; font-weight: 800; border-bottom: 4px solid #1e3c72; }
+        .badge { font-size: 0.9rem; padding: 6px 12px; }
+        .logic-card { border-left: 5px solid #1e3c72; background: #f8f9fa; padding: 20px; border-radius: 4px; margin: 20px 0; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 8px; font-size: 0.85rem; border: 1px solid #ddd; }
+        code { color: #d63384; }
+        .footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; color: #999; font-size: 0.8rem; }
+        @media print {
+            .no-print { display: none; }
+            body { padding: 0; }
+            .container { max-width: 100%; border: none; box-shadow: none; }
+            h1 { page-break-before: always; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container bg-white shadow-sm border rounded mt-5">
+    <div class="text-end no-print mb-4">
+        <button onclick="window.print()" class="btn btn-primary btn-sm"><i class="bi bi-file-pdf me-2"></i>Export to PDF</button>
+    </div>
+
+    <header class="text-center mb-5">
+        <h1>Library Management System v2.0</h1>
+        <p class="lead text-muted">Complete Project Documentation & Feature Guide</p>
+        <div class="d-flex justify-content-center gap-2 mt-3">
+            <span class="badge bg-primary">v2.0 (Stable)</span>
+            <span class="badge bg-dark">Laravel 11</span>
+            <span class="badge bg-info">MySQL</span>
+        </div>
+    </header>
+
+    <section>
+        <h2><i class="bi bi-info-circle me-2"></i>Project Overview</h2>
+        <p>A professional-grade, automated library management solution designed for modern educational institutions. The system emphasizes efficiency, fair use, and rich data-driven interactions.</p>
+    </section>
+
+    <section>
+        <h2><i class="bi bi-lightning-charge me-2"></i>Core Architecture</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="logic-card h-100">
+                    <h5 class="fw-bold">Backend Logic</h5>
+                    <ul class="small mb-0">
+                        <li>Laravel MVC Framework</li>
+                        <li>Eloquent ORM with Relational Integrity</li>
+                        <li>Middleware for Admin/Student Roles</li>
+                        <li>Database Seeders & Migrations</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="logic-card h-100">
+                    <h5 class="fw-bold">UI Design</h5>
+                    <ul class="small mb-0">
+                        <li>Clean Bootstrap 5 aesthetics</li>
+                        <li>Interactive Dashboards with Real-time Stats</li>
+                        <li>Blade Templating with Modular Layouts</li>
+                        <li>Mobile-responsive Navigation System</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2><i class="bi bi-clock-history me-2"></i>Borrowing & Fine Logic</h2>
+        <p>The system automates the most tedious parts of library management:</p>
+        <ul>
+            <li><strong>Standard Issued Period:</strong> 1 Month from the checkout date.</li>
+            <li><strong>The Grace Period:</strong> 3-day window allowed after the due date with zero penalty.</li>
+            <li><strong>Monetary Penalties:</strong> Fines accrue at a rate of <strong>10 per day</strong> starting from the 4th overdue day.</li>
+            <li><strong>Renewal Policy:</strong> One-time 1-month extension per book, subject to admin approval.</li>
+            <li><strong>Cooldown Period:</strong> Students must wait 30 days after returning a title before re-issuing the same book copies.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2><i class="bi bi-person-plus me-2"></i>Smart Reservations</h2>
+        <div class="logic-card">
+            <p class="mb-0">A sophisticated waitlist ensures fair access to high-demand books. When a student reserves an out-of-stock book, the system handles the <strong>"Ready for Pickup"</strong> handshake automatically once the book is returned, locking it for that specific student for **3 days**.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2><i class="bi bi-gear me-2"></i>Installation Steps</h2>
+        <pre>
+1. git clone [repository-url]
+2. composer install
+3. npm install && npm run build
+4. php artisan key:generate
+5. php artisan migrate --seed
+6. php artisan serve</pre>
+    </section>
+
+    <section>
+        <h2><i class="bi bi-shield-lock me-2"></i>User Access</h2>
+        <table class="table table-bordered small">
+            <thead class="table-light">
+                <tr><th>Feature</th><th>Admin</th><th>Student</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Books/Categories/Authors</td><td>Full Control</td><td>Read-only</td></tr>
+                <tr><td>Issue/Return</td><td>Full Control</td><td>Blocked</td></tr>
+                <tr><td>Reservations</td><td>Fulfillment</td><td>Request-only</td></tr>
+                <tr><td>Renewals</td><td>Manage Requests</td><td>Request-only</td></tr>
+                <tr><td>Fine Payments</td><td>Mark as Paid</td><td>View History</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <div class="footer">
+        <p>Generated by Antigravity AI Dashboard &copy; 2026. All rights reserved.</p>
+    </div>
+</div>
+
+</body>
+</html>
