@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\UserController;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ClickUser extends Controller
+class HomeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,9 @@ class ClickUser extends Controller
      */
     public function index()
     {
-        return view('content');
+        $categories = Category::with('products')->get();
+        $products = Product::latest()->take(10)->get();
+        return view('content', compact('categories', 'products'));
     }
 
     public function about()
@@ -40,11 +43,11 @@ class ClickUser extends Controller
     {
         return view('terms');
     }
-    public function privacy ()
+    public function privacy()
     {
         return view('privacy');
     }
-    public function  error404 ()
+    public function error404()
     {
         return view('404');
     }

@@ -1,237 +1,83 @@
 @extends('layout')
-@section('title-name')
-product
-@endsection
+
 @section('content')
-<section id="clickIt-content" class="mt-0 p-5">
-    <!-- Dairy, Bread & Eggs -->
-    <h1 class="ms-2 text-base mt-5 font-bold sm:text-sm md:text-2xl lg:text-3xl">Dairy, Bread & Eggs <button type="button" class="float-end  w-auto text-green-500  text-xl font-bold">see All</button></h1>
-    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 mt-5">
-        <a href="/product-details">
-            <div class="w-auto border-1 border-gray-200 p-8 mt-3">
-                <img src="{{asset('user/images/product1.avif')}}" class="mx-auto" />
-                <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-                <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-                <p class="text-gray-500">500 ml</p>
-                <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-            </div>
-        </a>
+<section class="max-w-7xl mx-auto px-4 py-12">
+    
+    <!-- Search Results Header -->
+    @if(request('search'))
+        <div class="mb-10 text-center">
+            <h1 class="text-3xl font-black text-gray-900 tracking-tight">
+                Search Results for <span class="text-green-600">"{{ request('search') }}"</span>
+            </h1>
+            <p class="text-gray-400 font-medium mt-2 italic">{{ $products->total() }} items found matching your request.</p>
+        </div>
+    @endif
 
-        <a href="/product-details">
-            <div class="w-auto border-1 border-gray-200 p-8 mt-3">
-                <img src="{{asset('user/images/product2.avif')}}" class="mx-auto" />
-                <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-                <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-                <p class="text-gray-500">500 ml</p>
-                <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-            </div>
+    <!-- Category Filter (Optional Enhancement) -->
+    @if(!request('search'))
+    <div class="flex flex-wrap gap-3 mb-12 justify-center">
+        <a href="{{ route('product') }}" class="px-6 py-2.5 rounded-full text-xs font-bold transition-all border {{ !request('category_id') ? 'bg-green-600 text-white border-green-600 shadow-lg shadow-green-100' : 'bg-white text-gray-500 border-gray-100 hover:border-green-200 hover:text-green-600' }}">
+            All Items
         </a>
-
-        <a href="/product-details">
-            <div class="w-auto border-1 border-gray-200 mt-3 p-8">
-                <img src="{{asset('user/images/product3.avif')}}" class="mx-auto" />
-                <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-                <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-                <p class="text-gray-500">500 ml</p>
-                <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-            </div>
-        </a>
-        <a href="/product-details">
-            <div class="w-auto mt-3 border-1 border-gray-200 p-8">
-                <img src="{{asset('user/images/product4.avif')}}" class="mx-auto" />
-                <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-                <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-                <p class="text-gray-500">500 ml</p>
-                <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-            </div>
-        </a>
-
-        <a href="/product-details">
-            <div class="w-auto mt-3 border-1 border-gray-200 p-8">
-                <img src="{{asset('user/images/product5.avif')}}" class="mx-auto" />
-                <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-                <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-                <p class="text-gray-500">500 ml</p>
-                <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-            </div>
-        </a>
-
-        <a href="/product-details">
-            <div class="w-auto mt-3 border-1 border-gray-200 p-8">
-                <img src="{{asset('user/images/product6.avif')}}" class="mx-auto" />
-                <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-                <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-                <p class="text-gray-500">500 ml</p>
-                <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-            </div>
-        </a>
+        @foreach($categories as $category)
+            <a href="{{ route('product', ['category_id' => $category->id]) }}" class="px-6 py-2.5 rounded-full text-xs font-bold transition-all border {{ request('category_id') == $category->id ? 'bg-green-600 text-white border-green-600 shadow-lg shadow-green-100' : 'bg-white text-gray-500 border-gray-100 hover:border-green-200 hover:text-green-600' }}">
+                {{ $category->name }}
+            </a>
+        @endforeach
     </div>
-    <!-- Snacks & Munchies -->
-    <h1 class="ms-2 text-base mt-5 font-bold sm:text-sm md:text-2xl lg:text-3xl">Snacks & Munchies<button type="button" class="float-end  w-auto text-green-500  text-xl font-bold">see All</button></h1>
-    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 mt-5">
-        <a href="/product-details">
-            <div class="w-auto border-1 border-gray-200 mt-3 p-8">
-                <img src="{{asset('user/images/product7.avif')}}" class="mx-auto" />
-                <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-                <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-                <p class="text-gray-500">500 ml</p>
-                <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
+    @endif
+
+    <!-- Product Grid -->
+    @if(count($products) > 0)
+        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 transition-all duration-500">
+            @foreach($products as $product)
+                <div class="bg-white rounded-[2rem] p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative group overflow-hidden">
+                    <a href="{{ route('product.details', $product->id) }}" class="block">
+                        <div class="aspect-square bg-gray-50 rounded-2xl p-4 mb-5 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+                            <img src="{{ asset($product->image) }}" class="w-full h-full object-contain" alt="{{ $product->name }}" loading="lazy" />
+                        </div>
+                        <div class="flex items-center gap-1.5 mb-2">
+                             <div class="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                             <p class="text-[10px] font-black uppercase tracking-widest text-green-600">{{ $product->delivery_time }} Delivery</p>
+                        </div>
+                        <h3 class="font-black text-gray-900 text-sm mb-1 truncate tracking-tight">{{ $product->name }}</h3>
+                        <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 italic">{{ $product->unit }}</p>
+                    </a>
+                    
+                    <div class="flex justify-between items-center bg-gray-50/50 p-2 rounded-2xl border border-gray-50">
+                        <span class="font-black text-gray-900 pl-2">₹{{ number_format($product->price) }}</span>
+                        <form action="{{ route('add.to.cart') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <button type="submit" class="w-10 h-10 bg-green-600 text-white rounded-xl flex items-center justify-center hover:bg-green-700 hover:scale-110 active:scale-95 transition-all shadow-md shadow-green-100">
+                                <i class="bi bi-plus-lg text-lg"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Discount Placeholder (Optional) -->
+                    <div class="absolute top-4 left-4 bg-yellow-400 text-white text-[8px] font-black px-2 py-1 rounded-full uppercase tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity">
+                        Flash Sale
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-20 flex justify-center">
+            {{ $products->links() }}
+        </div>
+    @else
+        <div class="text-center py-20 bg-white rounded-[3rem] border border-gray-100 shadow-sm">
+            <div class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-8">
+                <i class="bi bi-search text-5xl text-gray-200"></i>
             </div>
-        </a>
-
-        <a href="/product-details">
-            <div class="w-auto border-1 border-gray-200 mt-3 p-8">
-                <img src="{{asset('user/images/product8.avif')}}" class="mx-auto" />
-                <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-                <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-                <p class="text-gray-500">500 ml</p>
-                <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-            </div>
-        </a>
-
-        <a href="/product-details">
-            <div class="w-auto border-1 border-gray-200 mt-3 p-8">
-                <img src="{{asset('user/images/product9.avif')}}" class="mx-auto" />
-                <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-                <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-                <p class="text-gray-500">500 ml</p>
-                <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-            </div>
-        </a>
-
-        <a href="/product-details">
-            <div class="w-auto border-1 border-gray-200 mt-3 p-8">
-                <img src="{{asset('user/images/product10.avif')}}" class="mx-auto" />
-                <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-                <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-                <p class="text-gray-500">500 ml</p>
-                <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-            </div>
-        </a>
-
-        <a href="/product-details">
-            <div class="w-auto border-1 border-gray-200 mt-3 p-8">
-                <img src="{{asset('user/images/product12.avif')}}" class="mx-auto" />
-                <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-                <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-                <p class="text-gray-500">500 ml</p>
-                <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-            </div>
-        </a>
-
-        <a href="/product-details">
-            <div class="w-auto border-1 border-gray-200 mt-3 p-8">
-                <img src="{{asset('user/images/product13.avif')}}" class="mx-auto" />
-                <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-                <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-                <p class="text-gray-500">500 ml</p>
-                <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-            </div>
-        </a>
-    </div>
-    <!-- Hookah -->
-    <h1 class="ms-2 text-base mt-5  font-bold sm:text-sm md:text-2xl lg:text-3xl">Hookah <button type="button" class="float-end  w-auto text-green-500  text-xl font-bold">see All</button></h1>
-    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 mt-5">
-        <div class="w-auto border-1 border-gray-200 mt-3 p-5">
-            <img src="{{asset('user/images/product14.avif')}}" class="mx-auto" />
-            <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-            <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-            <p class="text-gray-500">500 ml</p>
-            <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
+            <h2 class="text-2xl font-black text-gray-900 tracking-tight">No Items Found</h2>
+            <p class="text-gray-500 font-medium mt-3 italic mb-8">Try adjusting your search or category filters.</p>
+            <a href="{{ route('product') }}" class="inline-flex items-center gap-2 text-green-600 font-black hover:text-green-700 decoration-2 transition">
+                Clear Filters <i class="bi bi-chevron-right"></i>
+            </a>
         </div>
-
-        <div class="w-auto border-1 border-gray-200 mt-3 p-5">
-            <img src="{{asset('user/images/product15.avif')}}" class="mx-auto" />
-            <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-            <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-            <p class="text-gray-500">500 ml</p>
-            <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-        </div>
-
-        <div class="w-auto border-1 border-gray-200 mt-3 p-5">
-            <img src="{{asset('user/images/product16.avif')}}" class="mx-auto" />
-            <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-            <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-            <p class="text-gray-500">500 ml</p>
-            <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-        </div>
-
-        <div class="w-auto border-1 border-gray-200 mt-3 p-5">
-            <img src="{{asset('user/images/product17.avif')}}" class="mx-auto" />
-            <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-            <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-            <p class="text-gray-500">500 ml</p>
-            <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-        </div>
-
-        <div class="w-auto border-1 border-gray-200 mt-3 p-5">
-            <img src="{{asset('user/images/product18.avif')}}" class="mx-auto" />
-            <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-            <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-            <p class="text-gray-500">500 ml</p>
-            <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-        </div>
-
-        <div class="w-auto border-1 border-gray-200 mt-3 p-5">
-            <img src="{{asset('user/images/product19.avif')}}" class="mx-auto" />
-            <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-            <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-            <p class="text-gray-500">500 ml</p>
-            <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-        </div>
-    </div>
-    <!-- Mouth fresheners -->
-    <h1 class="ms-2 text-base mt-5 font-bold sm:text-sm md:text-2xl lg:text-3xl">Mouth fresheners <button type="button" class="float-end  w-auto text-green-500  text-xl font-bold">see All</button></h1>
-    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 mt-5">
-        <div class="w-auto border-1 border-gray-200 mt-3 p-5">
-            <img src="{{asset('user/images/product20.avif')}}" class="mx-auto" />
-            <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-            <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-            <p class="text-gray-500">500 ml</p>
-            <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-        </div>
-
-        <div class="w-auto border-1 border-gray-200 mt-3 p-5">
-            <img src="{{asset('user/images/product22.avif')}}" class="mx-auto" />
-            <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-            <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-            <p class="text-gray-500">500 ml</p>
-            <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-        </div>
-
-        <div class="w-auto border-1 border-gray-200 mt-3 p-5">
-            <img src="{{asset('user/images/product23.avif')}}" class="mx-auto" />
-            <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-            <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-            <p class="text-gray-500">500 ml</p>
-            <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-        </div>
-
-        <div class="w-auto border-1 border-gray-200 mt-3 p-5">
-            <img src="{{asset('user/images/product24.avif')}}" class="mx-auto" />
-            <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-            <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-            <p class="text-gray-500">500 ml</p>
-            <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-        </div>
-
-        <div class="w-auto border-1 border-gray-200 mt-3 p-5">
-            <img src="{{asset('user/images/product12.avif')}}" class="mx-auto" />
-            <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-            <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-            <p class="text-gray-500">500 ml</p>
-            <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-        </div>
-
-        <div class="w-auto border-1 border-gray-200 mt-3 p-5">
-            <img src="{{asset('user/images/product14.avif')}}" class="mx-auto" />
-            <p><span class="bi bi-fire text-green-500"></span> 14 mins</p>
-            <p class="text-md font-bold">Amul Gold Full Cream Milk</p>
-            <p class="text-gray-500">500 ml</p>
-            <p>₹ 34 <button type="button" class="float-end border-2 border-green-800 p-2 rounded-xl w-auto">Add</button></p>
-        </div>
-    </div>
-
-
+    @endif
 </section>
 @endsection
